@@ -28,4 +28,13 @@ function DanhSachNhanVien() {
       this.mangNV[viTri] = nv;
     }
   };
+
+  this.timKiem = function (tukhoaTK) {
+    var mangKQ = [];
+    var lowerTuKhoa = tukhoaTK.trim().toLowerCase();
+    mangKQ = this.mangNV.filter(function (nv) {
+      return nv.xepLoai.trim().toLowerCase().includes(lowerTuKhoa);
+    });
+    return mangKQ;
+  };
 }

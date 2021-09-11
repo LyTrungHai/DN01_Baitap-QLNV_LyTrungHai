@@ -156,7 +156,7 @@
                       placeholder="Loại nhân viên"
                       id="searchName"
                     />
-                    <div class="input-group-prepend">
+                    <div class="input-group-prepend" id="search-ranking">
                       <span class="input-group-text" id="btnTimNV"
                         ><i class="fa fa-search"></i
                       ></span>
@@ -322,8 +322,8 @@
                     id="luongCB"
                     class="form-control input-sm"
                     placeholder="Lương cơ bản"
-                    min="1e6"
-                    max="2e7"
+                    min="1000000"
+                    max="20000000"
                   />
                 </div>
                 <span class="sp-thongbao" id="tbLuongCB"></span>
@@ -383,15 +383,16 @@
               type="button"
               onclick="capNhatNV()"
               class="btn btn-success"
-              data-dismiss="modal"
             >
               Cập nhật
             </button>
+            <!-- data-dismiss="modal" -->
             <button
               id="btnDong"
               type="button"
               class="btn btn-danger"
               data-dismiss="modal"
+              onclick="resetFormErr()"
             >
               Đóng
             </button>

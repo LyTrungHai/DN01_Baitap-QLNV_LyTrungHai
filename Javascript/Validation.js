@@ -19,6 +19,8 @@ function Validation() {
     // console.log({ isExist });
     if (isExist) {
       document.getElementById(spanID).innerHTML = message;
+      document.getElementById(spanID).classList.add("sp-thongbao--show");
+
       return true;
     } else {
       return false;
@@ -37,6 +39,8 @@ function Validation() {
       return true;
     } else {
       document.getElementById(spanID).innerHTML = message;
+      document.getElementById(spanID).classList.add("sp-thongbao--show");
+
       return false;
     }
   };
@@ -49,18 +53,22 @@ function Validation() {
       return true;
     } else {
       document.getElementById(spanID).innerHTML = message;
+      document.getElementById(spanID).classList.add("sp-thongbao--show");
+
       return false;
     }
   };
 
   // Kiểm tra mật khẩu
   this.checkPass = function (inputValue, spanID, message) {
-    var pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{8,}$/;
+    var pattern = /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[^\w\s]).{6,10}$/;
     if (inputValue.match(pattern)) {
       document.getElementById(spanID).innerHTML = "";
       return true;
     } else {
       document.getElementById(spanID).innerHTML = message;
+      document.getElementById(spanID).classList.add("sp-thongbao--show");
+
       return false;
     }
   };
@@ -72,6 +80,8 @@ function Validation() {
       return true;
     } else {
       document.getElementById(spanID).innerHTML = message;
+      document.getElementById(spanID).classList.add("sp-thongbao--show");
+
       return false;
     }
   };
@@ -85,6 +95,7 @@ function Validation() {
       return true;
     } else {
       document.getElementById(spanID).innerHTML = "";
+
       return false;
     }
   };
