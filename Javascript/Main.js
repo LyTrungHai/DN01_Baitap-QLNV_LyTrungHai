@@ -1,7 +1,13 @@
+// Biến chung
+
 function getELE(id) {
   return document.getElementById(id);
 }
 var dsnv = new DanhSachNhanVien();
+
+var validation = new Validation();
+
+// ========================
 
 function hienThiDanhSach(mang) {
   var content = "";
@@ -49,25 +55,138 @@ function themNV() {
   var chucVu = getELE("chucvu").value;
   var gioLam = getELE("gioLam").value;
 
-  var nv = new NhanVien(
+  /////////////check validation////////////
+
+  // == Kiểm tra tài khoản ============
+  var isEmpty = validation.checkEmpty(
     taiKhoanNV,
+    "tbTKNV",
+    "Tài khoản nhân viên trống! "
+  );
+  var isExist = validation.checkAcc(
+    taiKhoanNV,
+    "tbTKNV",
+    "Tài khoản nhân viên bị trùng!",
+    dsnv.mangNV
+  );
+  //kiểm tra tên ==============
+  var emptyName = validation.checkEmpty(
     tenNV,
+    "tbTen",
+    "Tên nhân viên trống! "
+  );
+  if (!emptyName) {
+    var isName = validation.checkName(
+      tenNV,
+      "tbTen",
+      "Tên nhân viên phải là ký tự chữ!"
+    );
+  }
+  ////Kiểm tra Email ==============
+  var emptyEmail = validation.checkEmpty(
     email,
+    "tbEmail",
+    "Email đang để trống!"
+  );
+  if (!emptyEmail) {
+    var isEmail = validation.checkEmail(
+      email,
+      "tbEmail",
+      "Email không hợp lệ!"
+    );
+  }
+  ///////////Kiểm tra pass
+  var emptyPass = validation.checkEmpty(
     matKhau,
-    ngay,
+    "tbMatKhau",
+    "Mật khẩu trống!"
+  );
+  if (!emptyPass) {
+    var isPass = validation.checkPass(
+      matKhau,
+      "tbMatKhau",
+      "Mật Khẩu từ 6-10 ký tự (chứa ít nhất 1 ký tự số, 1 ký tự in hoa, 1 ký tự đặc biệt)"
+    );
+  }
+  ////////// Kiểm tra ngày làm
+  var emptyDay = validation.checkEmpty(ngay, "tbNgay", "Ngày làm trống!");
+  if (!emptyDay) {
+    var isDay = validation.checkDay(
+      ngay,
+      "tbNgay",
+      "Ngày làm chưa đúng định dạng"
+    );
+  }
+
+  ////////// Kiểm tra lương cơ bản
+
+  var salaryEmpty = validation.checkEmpty(
     luong,
-    chucVu,
-    gioLam
+    "tbLuongCB",
+    "Chưa nhập lương!"
+  );
+  if (!salaryEmpty) {
+    if (luong < 1e6 || luong > 2e7) {
+      document.getElementById("tbLuongCB").innerHTML =
+        "Lương cơ bản 1 000 000 - 20 000 000";
+    }
+  }
+  ///// Kiểm tra giờ làm
+
+  var workHours = validation.checkEmpty(
+    gioLam,
+    "tbGiolam",
+    "Chưa nhập giờ làm!"
+  );
+  if (!workHours) {
+    if (gioLam < 80 || gioLam > 200) {
+      document.getElementById("tbGiolam").innerHTML =
+        "Số giờ làm trong tháng 80 - 200 giờ";
+      return;
+    }
+  }
+  //////////Kiểm tra Chức vụ
+  var isPosition = validation.checkPosition(
+    "chucvu",
+    "tbChucVu",
+    "Chưa chọn chức vụ!"
   );
 
-  dsnv.themNhanVien(nv);
+  if (
+    !isEmpty &&
+    !isExist &&
+    !emptyName &&
+    isName &&
+    !emptyEmail &&
+    isEmail &&
+    !emptyPass &&
+    isPass &&
+    !isPosition &&
+    !emptyDay &&
+    isDay &&
+    !salaryEmpty &&
+    !workHours
+  ) {
+    var nv = new NhanVien(
+      taiKhoanNV,
+      tenNV,
+      email,
+      matKhau,
+      ngay,
+      luong,
+      chucVu,
+      gioLam
+    );
 
-  nv.tongLuong = nv.tinhTongLuong();
-  // console.table(nv);
-  nv.xepLoai = nv.hamXepLoai();
-  setLocalStorage();
+    dsnv.themNhanVien(nv);
 
-  hienThiDanhSach(dsnv.mangNV);
+    nv.tongLuong = nv.tinhTongLuong();
+    // console.table(nv);
+    nv.xepLoai = nv.hamXepLoai();
+    setLocalStorage();
+
+    hienThiDanhSach(dsnv.mangNV);
+  }
 }
 
 function xoaNV(taiKhoanNhanVien) {
@@ -76,11 +195,6 @@ function xoaNV(taiKhoanNhanVien) {
   setLocalStorage();
 }
 
-//*
-// const modalEl = document.querySelector("#myModal");
-// const bodyEl = document.querySelector("body");
-// const overlayEl = document.createElement("div");
-//*
 function xemChiTiet(taiKhoanNhanVien) {
   var viTri = dsnv.timViTri(taiKhoanNhanVien);
   var nv = dsnv.mangNV[viTri];
@@ -94,3 +208,68 @@ function xemChiTiet(taiKhoanNhanVien) {
   getELE("chucvu").value = nv.chucVu;
   getELE("gioLam").value = nv.gioLam;
 }
+
+function capNhatNV() {
+  var taiKhoanNV = getELE("tknv").value;
+  var tenNV = getELE("name").value;
+  var email = getELE("email").value;
+  var matKhau = getELE("password").value;
+  var ngay = getELE("datepicker").value;
+  var luong = getELE("luongCB").value;
+  var chucVu = getELE("chucvu").value;
+  var gioLam = getELE("gioLam").value;
+
+  var nv = new NhanVien(
+    taiKhoanNV,
+    tenNV,
+    email,
+    matKhau,
+    ngay,
+    luong,
+    chucVu,
+    gioLam
+  );
+
+  nv.tongLuong = nv.tinhTongLuong();
+
+  nv.xepLoai = nv.hamXepLoai();
+
+  dsnv.capNhatNhanVien(nv);
+
+  hienThiDanhSach(dsnv.mangNV);
+
+  setLocalStorage();
+}
+
+function resetForm() {
+  getELE("form-qlnv").reset();
+  document.getElementsByClassName("sp-thongbao").innerHTML = "";
+  getELE("tknv").disabled = false;
+}
+
+// Trashhhhhhhhh
+
+//*
+// const modalEl = document.querySelector("#myModal");
+// const bodyEl = document.querySelector("body");
+// const overlayEl = document.createElement("div");
+//*
+
+// ==
+
+// modalEl.classList.add("show");
+// modalEl.style.display = "block";
+// bodyEl.classList.add("modal-open");
+
+// overlayEl.classList.add("modal-backdrop", "fade", "show");
+// bodyEl.appendChild(overlayEl);
+
+// ==
+
+// const btnDongEl = document.querySelector("#btnDong");
+// btnDongEl.addEventListener("click", () => {
+//   modalEl.classList.remove("show");
+//   modalEl.style.display = "none";
+//   bodyEl.classList.remove("modal-open");
+//   bodyEl.removeChild(overlayEl);
+// });

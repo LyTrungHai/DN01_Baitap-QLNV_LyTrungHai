@@ -4,6 +4,10 @@
   display: none;
 }
 
+.sp-thongbao--show {
+  display: block;
+}
+
 #SapXepGiam{
 	display: none;
 }
@@ -19,4 +23,8 @@
 
 .myCardHeader, .myCardFooter{
 	background-color: transparent;       
+}
+
+.btn {
+  margin:4px ;
 }

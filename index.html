@@ -137,6 +137,7 @@
                     id="btnThem"
                     data-toggle="modal"
                     data-target="#myModal"
+                    onclick="resetForm()"
                   >
                     Thêm nhân viên
                   </button>
@@ -214,7 +215,7 @@
 
           <!-- Modal body -->
           <div class="modal-body">
-            <form role="form">
+            <form role="form" id="form-qlnv">
               <div class="form-group">
                 <div class="input-group">
                   <div class="input-group-prepend">
@@ -301,7 +302,7 @@
                     name="ngaylam"
                     id="datepicker"
                     class="form-control"
-                    placeholder="Ngày làm"
+                    placeholder="Ngày làm (nhập tháng trước,ngày sau)"
                   />
                 </div>
 
@@ -321,6 +322,8 @@
                     id="luongCB"
                     class="form-control input-sm"
                     placeholder="Lương cơ bản"
+                    min="1e6"
+                    max="2e7"
                   />
                 </div>
                 <span class="sp-thongbao" id="tbLuongCB"></span>
@@ -350,11 +353,13 @@
                     ></span>
                   </div>
                   <input
-                    type="text"
+                    type="number"
                     name="gioLam"
                     id="gioLam"
                     class="form-control input-sm"
                     placeholder="Giờ làm"
+                    min="80"
+                    max="200"
                   />
                 </div>
                 <span class="sp-thongbao" id="tbGiolam"></span>
@@ -372,7 +377,14 @@
             >
               Thêm người dùng
             </button>
-            <button id="btnCapNhat" type="button" class="btn btn-success">
+            <!-- data-dismiss="modal" -->
+            <button
+              id="btnCapNhat"
+              type="button"
+              onclick="capNhatNV()"
+              class="btn btn-success"
+              data-dismiss="modal"
+            >
               Cập nhật
             </button>
             <button
@@ -416,7 +428,9 @@
     </script>
 
     <script src="./Javascript/NhanVien.js"></script>
+
     <script src="./Javascript/DanhSachNhanVien.js"></script>
+    <script src="./Javascript/Validation.js"></script>
     <script src="./Javascript/Main.js"></script>
   </body>
 </html>

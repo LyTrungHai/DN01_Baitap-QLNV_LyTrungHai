@@ -21,4 +21,11 @@ function DanhSachNhanVien() {
       this.mangNV.splice(viTriNV, 1);
     }
   };
+
+  this.capNhatNhanVien = function (nv) {
+    var viTri = this.timViTri(nv.taiKhoan);
+    if (viTri >= 0) {
+      this.mangNV[viTri] = nv;
+    }
+  };
 }
