@@ -196,6 +196,7 @@ function themNV() {
     setLocalStorage();
 
     hienThiDanhSach(dsnv.mangNV);
+    document.querySelector("#btnDong").click();
   }
 }
 
