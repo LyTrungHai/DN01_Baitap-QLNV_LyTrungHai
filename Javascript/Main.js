@@ -368,6 +368,7 @@ function capNhatNV() {
     hienThiDanhSach(dsnv.mangNV);
 
     setLocalStorage();
+    document.querySelector("#btnDong").click();
   }
 }
 
